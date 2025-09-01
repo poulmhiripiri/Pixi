@@ -15,4 +15,6 @@ COPY uploads/ /usr/src/pixi/web/uploads/
 RUN npm install --unsafe-perm -g nodemon@1.11.0
 
 EXPOSE 8000
+RUN chown -R 1000:1000 /usr/src/pixi/web
+USER 1000
 CMD ["nodemon", "/usr/src/pixi/web/server.js"]
