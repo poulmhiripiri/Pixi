@@ -13,5 +13,6 @@ RUN npm install -g nodemon
 
 EXPOSE 8080
 
-
+RUN chown -R 1000:1000 /usr/src/pixi/api
+USER 1000
 CMD ["nodemon", "/usr/src/pixi/api/api.js"]
