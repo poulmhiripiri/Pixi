@@ -67,7 +67,7 @@ function api_authenticate(user, pass, req, res){
 			return err;
 		}
 		console.log('user ' + user + ' pass ' + pass);
-		db.collection('users').findOne({email: user, password: pass },function(err, result){
+		db.collection('users').findOne({email: String(user), password: String(pass) },function(err, result){
 			if(err){
 				console.log('Query error...');
 				return err;
@@ -99,7 +99,7 @@ function api_register(user, pass, req, res){
 		}
 		console.log('user ' + user + ' pass ' + pass);
 		user = user.toLowerCase();
-		db.collection('users').findOne({ email: user },function(err, result){
+		db.collection('users').findOne({ email: String(user) },function(err, result){
 			if(err){ return err; }
 			if(result !== null) {
 				res.status(202).json({message: user + ' is already registered.' });
@@ -379,8 +379,8 @@ app.get('/api/pictures/like', api_token_check, function(req, res){
  	//db call- if like exists, delete it, if not exists, add it.
  	mongo.connect('mongodb://pixidb:27017/Pixidb', function(err, db){
 			db.collection('likes').findOne( { 
-				'user_id' : req.user.user._id, 
-				'picture_id' : req.query.picture_id }, function(err, like) {
+				'user_id' : Number(req.user.user._id), 
+				'picture_id' : Number(req.query.picture_id) }, function(err, like) {
 					
 					if(err) { return err };
 					if(!like) {  //brand new like
